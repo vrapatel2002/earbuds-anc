@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mempalace": {
+      "command": "${HOME}/.mempalace-venv/bin/python",
+      "args": ["-m", "mempalace.mcp_server"]
+    },
+    "code-review-graph": {
+      "command": "${HOME}/.code-review-graph-venv/bin/code-review-graph",
+      "args": ["serve"]
+    }
+  }
+}

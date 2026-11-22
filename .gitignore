@@ -1,0 +1,8 @@
+# captures can contain device MACs / serials
+captures/*.btsnoop
+captures/*.log
+captures/*.pcap*
+firmware/
+*.bin
+.code-review-graph/
+/bin/
