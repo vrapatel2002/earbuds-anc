@@ -31,7 +31,8 @@ Phase 2 — app v0.1 skeleton builds green on GitHub Actions; signing key made o
 - [x] Android app skeleton: UI, RFCOMM connect, foreground service, QS tile, crash→issue, log export, self-updater
 - [x] CI (tests + debug APK) green; release workflow on v* tags
 - [x] Release keystore at ~/.config/earbuds-anc/ (SHA-256 9D:E1:18:D4…:B0:77)
-- [ ] Actions secrets set (KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD)
+- [x] Actions secrets set (via gh on G14)
+- [x] v0.1.0 released (signed APK on GitHub Releases); repo made public so the updater can see it
 - [ ] First release v0.1.0 installed on Pixel 9
 - [ ] Baseline ANC measurement
 - [x] Kotlin `proto` module (frame/CRC/decoder, ANC, listening mode, custom EQ, battery, wear, serial→model) + tests
@@ -44,6 +45,7 @@ Phase 2 — app v0.1 skeleton builds green on GitHub Actions; signing key made o
 4. Phase 2: Android `:app` module (needs Android SDK on G14).
 
 ## LAST SESSION SUMMARY
+- 2026-11-22: Repo public. gh logged in on G14; secrets set; v0.1.0 released. NOTE: cloud sandbox can't push tags — push tags from G14 (`git push origin vX.Y.Z`).
 - 2026-11-22: Repo created + pushed. Android app skeleton, CI, release workflow, self-updater, crash reporting written; CI green first run. Keystore generated on G14. Claude's GitHub connection can't set Actions secrets or create repos.
 - 2026-11-21: Project created. Docs modeled on luminos-os.
 - 2026-11-21: Decided: own app, not a modded Nothing X. Wrote `proto/` (pure Kotlin) ported from something-x (MIT); 12 tests pass via kotlinc. Adaptive ANC wire value unknown → blocked in code until captured.

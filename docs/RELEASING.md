@@ -7,7 +7,7 @@ Same `applicationId` (`dev.vratik.anc`) + same signing key + higher version = An
 ```
 git tag v0.1.1 && git push origin v0.1.1
 ```
-GitHub Actions (`.github/workflows/release.yml`) runs the tests, builds the APK, signs it, and publishes a GitHub Release with `earbuds-anc-v0.1.1.apk` attached.
+Push tags from the G14 (the cloud sandbox's git proxy rejects tag pushes). GitHub Actions (`.github/workflows/release.yml`) runs the tests, builds the APK, signs it, and publishes a GitHub Release with `earbuds-anc-v0.1.1.apk` attached.
 On the phone: app → Updates → Check for updates → Update.
 
 Version code = major·10000 + minor·100 + patch (from the tag), so tags must only go up.
