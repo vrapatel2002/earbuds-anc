@@ -11,7 +11,7 @@ Phases are gated. Don't start a phase until the previous exit check passes.
 - [x] 0.2 MemPalace wing `earbuds_anc`
 - [x] 0.3 Device identified: CMF Buds Pro 2, Nothing X, RFCOMM protocol
 - [ ] 0.4 Confirm model code (B172/B187) + firmware version
-- [ ] 0.5 Folder on disk, `git init`, register with code-review-graph
+- [x] 0.5 Folder on disk, `git init`, register with code-review-graph
 **Exit:** DEVICE table complete.
 
 ## Phase 1 — Protocol (reuse first, capture second)
@@ -22,16 +22,16 @@ Phases are gated. Don't start a phase until the previous exit check passes.
 **Exit:** All needed commands documented + replayed from a tiny test script.
 
 ## Phase 2 — Core app (Nothing X replacement)
-- [ ] 2.0 Update + monitoring pipeline (before any feature work):
+- [~] 2.0 Update + monitoring pipeline (built; secrets + public release source pending) (before any feature work):
   - Fixed applicationId `dev.vratik.anc` + one release keystore, kept forever (backed up off-machine). Same id + same key + higher versionCode = in-place update, settings kept.
   - Private GitHub repo; GitHub Actions builds + signs the APK on every `v*` tag → GitHub Release.
   - In-app updater: checks latest Release, shows changelog, downloads APK, installs via PackageInstaller (one tap; can become silent once the app is its own installer of record).
   - Monitoring: in-app log screen + "export logs"; crash reports (ACRA → GitHub issue or Sentry free tier); version + firmware shown in About.
   - Wireless ADB from the G14 for live logcat during dev.
 - [x] 2.1 Kotlin `proto` module: RFCOMM connect, frame encode/decode, CRC, request/response
-- [ ] 2.2 Foreground service keeps the connection; reconnects on BT events
-- [ ] 2.3 Compose UI: battery (L/R/case), ANC modes, EQ, fit test, gestures
-- [ ] 2.4 Quick Settings tile + notification controls for ANC mode
+- [x] 2.2 Foreground service keeps the connection; reconnects on BT events
+- [~] 2.3 Compose UI (status, battery, ANC, EQ presets done; custom EQ, fit test, gestures todo): battery (L/R/case), ANC modes, EQ, fit test, gestures
+- [x] 2.4 Quick Settings tile + notification controls for ANC mode
 **Exit:** Nothing X can be uninstalled.
 
 ## Phase 3 — Stronger ANC (what's actually possible)

@@ -20,10 +20,17 @@ earbuds-anc/
 │   │   ├── Commands.kt  ← Cmd IDs, AncMode, ListeningMode, CommandBuilder, CustomEq
 │   │   └── Parsers.kt   ← battery, wear, ANC mode, serial, model
 │   └── src/test/…/ProtoTest.kt ← byte-exact vectors from something-x
-├── app/                 ← Android app (Kotlin/Compose): proto/, service/, ui/ (Phase 2)
+├── app/src/main/kotlin/dev/vratik/anc/
+│   ├── App.kt           ← Application, crash capture, AppLog ring buffer
+│   ├── Buds.kt          ← RFCOMM connect (vendor UUID → channel probe), frame handling, state
+│   ├── BudsService.kt   ← foreground service keeping the connection
+│   ├── AncTileService.kt← Quick Settings tile
+│   ├── Updater.kt       ← GitHub Releases check + PackageInstaller update
+│   └── MainActivity.kt  ← Compose UI
+├── .github/workflows/   ← ci.yml (push), release.yml (v* tags)
 ├── tools/               ← capture-analysis scripts (host)
 ├── measurements/        ← baseline + after recordings
 └── captures/            ← HCI snoop / btmon logs (gitignored if they contain MACs)
 ```
 
-Run tests: `gradle :proto:test` (JDK 17).
+Run tests: `./gradlew :proto:test`. Build: `./gradlew :app:assembleDebug` (needs Android SDK) — or let CI do it. Releasing: docs/RELEASING.md.

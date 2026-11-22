@@ -2,7 +2,7 @@
 Last Updated: 2026-11-21
 
 ## ONE-LINE STATUS
-Phase 1 — `proto` module written + 12 unit tests passing (frames byte-identical to something-x). Next: confirm on real buds + capture Adaptive/fit-test commands.
+Phase 2 — app v0.1 skeleton builds green on GitHub Actions; signing key made on G14. Waiting on: repo secrets, public-vs-private decision for updater, HCI capture.
 
 ## DEVICE
 | Field | Value |
@@ -27,7 +27,12 @@ Phase 1 — `proto` module written + 12 unit tests passing (frames byte-identica
 - [x] MemPalace wing `earbuds_anc`
 - [x] Device identified
 - [ ] Model code + firmware version confirmed
-- [ ] code-review-graph repo registered (needs folder on disk + git init)
+- [x] GitHub repo vrapatel2002/earbuds-anc (private), cloned at ~/Projects/earbuds-anc, registered in code-review-graph
+- [x] Android app skeleton: UI, RFCOMM connect, foreground service, QS tile, crash→issue, log export, self-updater
+- [x] CI (tests + debug APK) green; release workflow on v* tags
+- [x] Release keystore at ~/.config/earbuds-anc/ (SHA-256 9D:E1:18:D4…:B0:77)
+- [ ] Actions secrets set (KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD)
+- [ ] First release v0.1.0 installed on Pixel 9
 - [ ] Baseline ANC measurement
 - [x] Kotlin `proto` module (frame/CRC/decoder, ANC, listening mode, custom EQ, battery, wear, serial→model) + tests
 - [ ] Protocol confirmed on Vratik's unit
@@ -39,6 +44,7 @@ Phase 1 — `proto` module written + 12 unit tests passing (frames byte-identica
 4. Phase 2: Android `:app` module (needs Android SDK on G14).
 
 ## LAST SESSION SUMMARY
+- 2026-11-22: Repo created + pushed. Android app skeleton, CI, release workflow, self-updater, crash reporting written; CI green first run. Keystore generated on G14. Claude's GitHub connection can't set Actions secrets or create repos.
 - 2026-11-21: Project created. Docs modeled on luminos-os.
 - 2026-11-21: Decided: own app, not a modded Nothing X. Wrote `proto/` (pure Kotlin) ported from something-x (MIT); 12 tests pass via kotlinc. Adaptive ANC wire value unknown → blocked in code until captured.
 - 2026-11-21: Target set to Pixel 9 Android app. Device = CMF Buds Pro 2 using Nothing X. Goal features: smarter/stronger ANC + Apple/Samsung-style conversation awareness (auto voice passthrough). LibrePods (AirPods) used as feature/UX reference.
