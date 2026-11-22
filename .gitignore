@@ -6,3 +6,10 @@ firmware/
 *.bin
 .code-review-graph/
 /bin/
+build/
+.gradle/
+local.properties
+.idea/
+*.jks
+*.keystore
+keystore.env

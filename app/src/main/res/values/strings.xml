@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Buds ANC</string>
+    <string name="tile_label">Noise control</string>
+</resources>
