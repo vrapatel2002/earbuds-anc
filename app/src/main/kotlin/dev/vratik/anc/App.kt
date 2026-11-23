@@ -24,6 +24,7 @@ class App : Application() {
             }
             previous?.uncaughtException(thread, e)
         }
+        LiveDebug.init(this)
         AppLog.d("app start v${BuildConfig.VERSION_NAME}")
     }
 
@@ -41,7 +42,9 @@ object AppLog {
     @Synchronized
     fun d(msg: String) {
         android.util.Log.d("BudsANC", msg)
-        _lines.value = (_lines.value + "${fmt.format(Date())} $msg").takeLast(500)
+        val line = "${fmt.format(Date())} $msg"
+        _lines.value = (_lines.value + line).takeLast(500)
+        LiveDebug.offer(line)
     }
 }
 

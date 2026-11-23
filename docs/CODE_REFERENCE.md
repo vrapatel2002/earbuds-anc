@@ -26,6 +26,7 @@ earbuds-anc/
 │   ├── BudsService.kt   ← foreground service keeping the connection
 │   ├── AncTileService.kt← Quick Settings tile
 │   ├── Updater.kt       ← GitHub Releases check + PackageInstaller update
+│   ├── LiveDebug.kt     ← opt-in live log stream to ntfy.sh topic
 │   └── MainActivity.kt  ← Compose UI
 ├── .github/workflows/   ← ci.yml (push), release.yml (v* tags)
 ├── tools/               ← capture-analysis scripts (host)

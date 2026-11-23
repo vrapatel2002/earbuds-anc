@@ -36,3 +36,4 @@ Every push to `main` builds a debug APK (CI artifact). It installs as `dev.vrati
 - Builds/releases: GitHub Actions + Releases pages (Claude can read them from chat).
 - Crashes: app saves the stack trace; next launch shows "Report on GitHub" → opens a pre-filled issue labelled `crash`.
 - Logs: app → Log → Export log.
+- Live: app → Live debug ON → posts log + state to `ntfy.sh/<Debug ID>`. Claude reads it from the G14: `curl -s "https://ntfy.sh/<id>/json?poll=1&since=30m"`. Off by default; no serials/MACs logged.

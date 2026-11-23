@@ -25,6 +25,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -34,7 +35,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -92,6 +96,7 @@ class MainActivity : ComponentActivity() {
             }
 
             UpdateCard()
+            LiveDebugCard()
             LogCard()
         }
     }
@@ -141,6 +146,20 @@ class MainActivity : ComponentActivity() {
                     }) { Text("Update") }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun LiveDebugCard() {
+        val on by LiveDebug.enabled.collectAsStateWithLifecycle()
+        val clipboard = LocalClipboardManager.current
+        Section("Live debug") {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Switch(checked = on, onCheckedChange = { LiveDebug.setEnabled(it) })
+                Text(if (on) "Streaming log to Claude" else "Off")
+            }
+            Text("Debug ID: ${LiveDebug.topic}", fontFamily = FontFamily.Monospace, fontSize = 12.sp)
+            OutlinedButton(onClick = { clipboard.setText(AnnotatedString(LiveDebug.topic)) }) { Text("Copy debug ID") }
         }
     }
 
