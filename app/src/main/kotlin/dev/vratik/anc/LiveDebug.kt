@@ -11,7 +11,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 /**
@@ -37,7 +36,7 @@ object LiveDebug {
         _enabled.value = prefs.getBoolean("enabled", false)
 
         scope.launch { // state snapshots
-            Buds.ui.distinctUntilChanged().collect { if (_enabled.value) offer("STATE $it") }
+            Buds.ui.collect { if (_enabled.value) offer("STATE $it") } // StateFlow already dedupes
         }
         scope.launch { // flush every 2 s
             while (true) {
