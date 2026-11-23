@@ -45,6 +45,7 @@ Phase 2 — app v0.1 skeleton builds green on GitHub Actions; signing key made o
 4. Phase 2: Android `:app` module (needs Android SDK on G14).
 
 ## LAST SESSION SUMMARY
+- 2026-11-23: v0.1.1 released — Live debug (opt-in ntfy.sh stream). docs/TESTING.md checklist added. Vratik uninstalled Nothing X to test our app alone. Awaiting first real-device test + Debug ID.
 - 2026-11-22: Repo public. gh logged in on G14; secrets set; v0.1.0 released. NOTE: cloud sandbox can't push tags — push tags from G14 (`git push origin vX.Y.Z`).
 - 2026-11-22: Repo created + pushed. Android app skeleton, CI, release workflow, self-updater, crash reporting written; CI green first run. Keystore generated on G14. Claude's GitHub connection can't set Actions secrets or create repos.
 - 2026-11-21: Project created. Docs modeled on luminos-os.
