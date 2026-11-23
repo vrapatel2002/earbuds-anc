@@ -146,9 +146,16 @@ object Buds {
         _ui.update { it.copy(connected = false, status = "Disconnected") }
     }
 
+    private var crcMismatchLogged = 0
+
     private fun handleBytes(bytes: ByteArray) {
         decoder.feed(bytes).forEach { f ->
-            if (!f.crcOk) AppLog.d("bad CRC on ${"%04x".format(f.cmd)}") else handle(f)
+            // Device RX CRC doesn't verify (same in something-x) — log a few raw frames, process anyway.
+            if (!f.crcOk && crcMismatchLogged < 5) {
+                crcMismatchLogged++
+                AppLog.d("rx CRC mismatch ${"%04x".format(f.cmd)} raw=${f.raw.hex()}")
+            }
+            handle(f)
         }
     }
 
@@ -161,8 +168,16 @@ object Buds {
                 listOf(cmd.getSerial(), cmd.getFirmware(), cmd.getBattery(), cmd.getAnc(),
                     cmd.getListeningMode(), cmd.getEarphone()).forEach(::send)
             }
+            Cmd.SET_ACTIVATED -> {
+                // Queries sent before activation finishes can be dropped — resend on ACK.
+                AppLog.d("activated")
+                listOf(cmd.getBattery(), cmd.getAnc(), cmd.getEarphone(), cmd.getListeningMode()).forEach(::send)
+            }
+            Cmd.SET_ANC -> { AppLog.d("ANC set ACK"); send(cmd.getAnc()) }
+            Cmd.SET_LISTENING_MODE -> { AppLog.d("EQ set ACK"); send(cmd.getListeningMode()) }
+            Cmd.EVT_ANC -> send(cmd.getAnc()) // event is a trigger; re-read the real value
             Cmd.GET_BATTERY, Cmd.EVT_BATTERY -> _ui.update { it.copy(battery = parseBattery(p, it.battery)) }
-            Cmd.GET_ANC, Cmd.EVT_ANC -> {
+            Cmd.GET_ANC -> {
                 val mode = parseAncMode(p)
                 // Unknown values get logged — this is how we'll learn Adaptive's wire value.
                 if (mode == null) AppLog.d("unknown ANC payload: ${p.hex()}")

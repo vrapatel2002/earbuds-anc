@@ -13,7 +13,13 @@ package dev.vratik.anc.proto
  *
  * Reference: something-x protocol.py (MIT), github.com/SoaOaoS/something-x
  */
-data class Frame(val cmd: Int, val payload: ByteArray, val crcOk: Boolean = true) {
+data class Frame(
+    val cmd: Int,
+    val payload: ByteArray,
+    val crcOk: Boolean = true,
+    /** Full raw frame bytes — kept so CRC mismatches can be logged and studied. */
+    val raw: ByteArray = ByteArray(0),
+) {
     override fun equals(other: Any?) =
         other is Frame && cmd == other.cmd && payload.contentEquals(other.payload) && crcOk == other.crcOk
 
@@ -71,12 +77,25 @@ class FrameDecoder {
             val total = HEADER_SIZE + len + crcSize
             if (buf.size < total) break
 
-            val crcOk = crcSize == 0 || getU16(buf, HEADER_SIZE + len) == crc16(buf, HEADER_SIZE + len)
-            frames += Frame(cmd or 0x8000, buf.copyOfRange(HEADER_SIZE, HEADER_SIZE + len), crcOk)
+            val crcOk = crcSize == 0 || rxCrcMatches(buf, HEADER_SIZE + len)
+            frames += Frame(cmd or 0x8000, buf.copyOfRange(HEADER_SIZE, HEADER_SIZE + len), crcOk, buf.copyOf(total))
             buf = buf.copyOfRange(total, buf.size)
         }
         return frames
     }
+}
+
+/**
+ * Device→host CRC doesn't match a plain CRC16 over the received bytes (something-x
+ * sees the same and ignores it). Accept either the plain form or one computed with
+ * the response bit (cmd bit 15) still set, which is the most likely explanation.
+ */
+private fun rxCrcMatches(frame: ByteArray, len: Int): Boolean {
+    val got = getU16(frame, len)
+    if (got == crc16(frame, len)) return true
+    val withBit = frame.copyOf(len)
+    withBit[4] = (withBit[4].toInt() or 0x80).toByte()
+    return got == crc16(withBit, len)
 }
 
 internal fun putU16(b: ByteArray, at: Int, v: Int) {
